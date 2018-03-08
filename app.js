@@ -2,10 +2,11 @@ let express = require('express');
 let bodyParser = require('body-parser');
 let cors = require('cors');
 let mongoose = require('mongoose');
-let config = require('./app/config/DB');
+let config = require('./app/config/db');
 let itemRoutes = require('./app/expressRoutes/itemRoutes');
 
 mongoose.Promise = global.Promise;
+console.log(config.DB);
 mongoose.connect(config.DB).then(
     () => {
         console.log('Database is connected')
