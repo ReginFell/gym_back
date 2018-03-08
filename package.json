@@ -4,7 +4,7 @@
   "description": "Application for making notes about your gym progress",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app"
   },
   "author": "S.Zabelnykov",
   "license": "ISC",
