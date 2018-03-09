@@ -3,7 +3,7 @@ let bodyParser = require('body-parser');
 let cors = require('cors');
 let mongoose = require('mongoose');
 let config = require('./app/config/db');
-let itemRoutes = require('./app/expressRoutes/itemRoutes');
+let userRoutes = require('./app/expressRoutes/userRoutes');
 
 mongoose.Promise = global.Promise;
 console.log(config.DB);
@@ -20,7 +20,7 @@ const app = express();
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(cors());
-app.use('/items', itemRoutes);
+app.use('/users', userRoutes);
 
 const port = process.env.PORT || 4000;
 
