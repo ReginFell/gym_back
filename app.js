@@ -6,7 +6,6 @@ let config = require('./app/config/db');
 let userRoutes = require('./app/expressRoutes/userRoutes');
 
 mongoose.Promise = global.Promise;
-console.log(config.DB);
 mongoose.connect(config.DB).then(
     () => {
         console.log('Database is connected')
@@ -20,9 +19,9 @@ const app = express();
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(cors());
-app.use('/users', userRoutes);
+app.use('/user', userRoutes);
 
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 5000;
 
 const server = app.listen(port, function () {
     console.log('Listening on port ' + port);
