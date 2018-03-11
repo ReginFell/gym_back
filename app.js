@@ -1,29 +1,39 @@
 let express = require('express');
+let session = require('express-session');
 let bodyParser = require('body-parser');
 let cors = require('cors');
-let mongoose = require('mongoose');
-let config = require('./app/config/db');
-let userRoutes = require('./app/expressRoutes/userRoutes');
 
-mongoose.Promise = global.Promise;
-mongoose.connect(config.DB).then(
-    () => {
+let mongoose = require('mongoose');
+let MongoStore = require('connect-mongo')(session);
+
+let config = require('./app/config/db');
+let userRoutes = require('./app/route/userRoutes');
+
+mongoose.connect(config.DB)
+    .then(() => {
         console.log('Database is connected')
-    },
-    err => {
+    })
+    .catch((err) => {
         console.log('Can not connect to the database' + err)
-    }
-);
+    });
 
 const app = express();
-app.use(express.static('public'));
+
 app.use(bodyParser.json());
+
+app.use(session({
+    secret: 'First Rule of Gym',
+    resave: true,
+    saveUninitialized: false,
+    store: new MongoStore({mongooseConnection: mongoose.connection})
+}));
+
 app.use(cors());
 app.use('/user', userRoutes);
 
 const port = process.env.PORT || 5000;
 
-const server = app.listen(port, function () {
+app.listen(port, function () {
     console.log('Listening on port ' + port);
 });
 
