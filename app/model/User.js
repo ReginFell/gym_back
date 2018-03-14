@@ -11,6 +11,7 @@ let UserSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
+        unique: false
     },
     social_token_type: {
         type: String,
@@ -38,7 +39,7 @@ UserSchema.pre('save', function (next) {
 UserSchema.statics.authenticate = (email, password) => {
     return User.findOne({email: email})
         .then((user) => {
-            if (bcrypt.compareSync(password, user.password)) {
+            if (user != null && bcrypt.compareSync(password, user.password)) {
                 return user;
             } else {
                 let error = new Error();

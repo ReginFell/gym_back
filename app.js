@@ -1,15 +1,13 @@
 let express = require('express');
-let session = require('express-session');
 let bodyParser = require('body-parser');
 let cors = require('cors');
-
 let mongoose = require('mongoose');
-let MongoStore = require('connect-mongo')(session);
+let passport = require("passport");
 
-let config = require('./app/config/db');
+let config = require('./app/config/config');
 let userRoutes = require('./app/route/userRoutes');
 
-mongoose.connect(config.DB)
+mongoose.connect(config.db)
     .then(() => {
         console.log('Database is connected')
     })
@@ -20,13 +18,8 @@ mongoose.connect(config.DB)
 const app = express();
 
 app.use(bodyParser.json());
-
-app.use(session({
-    secret: 'First Rule of Gym',
-    resave: true,
-    saveUninitialized: false,
-    store: new MongoStore({mongooseConnection: mongoose.connection})
-}));
+app.use(passport.initialize());
+require('./app/config/passport')(passport);
 
 app.use(cors());
 app.use('/user', userRoutes);
@@ -37,3 +30,9 @@ app.listen(port, function () {
     console.log('Listening on port ' + port);
 });
 
+app.use((req, res) => {
+    let error = new Error();
+    error.error_code = 404;
+    error.name = "Не найдено";
+    res.status(404).send(error);
+});

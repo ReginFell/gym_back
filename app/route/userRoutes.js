@@ -1,25 +1,28 @@
 let express = require('express');
+let jwt = require('jsonwebtoken');
+let passport = require("passport");
+
 let userRoutes = express.Router();
-let hat = require('hat');
+
+let config = require('../config/config');
 
 let User = require('../model/User');
-let Session = require('../model/Session');
 
 userRoutes.route('/login')
     .post((req, res) => {
         User.authenticate(req.body.email, req.body.password)
             .then(user => {
-                req.session.user_id = user._id;
-                req.session.token = hat();
+                let token = jwt.sign(user.toJSON(), config.auth_secret);
                 res.status(200)
                     .send({
-                        token: req.session.token,
+                        token,
                         email: user.email
-                    });
+                    })
             })
             .catch(err => {
+                console.log(err);
                 res.status(err.error_code).send(err);
-            })
+            });
     });
 
 userRoutes.route('/registration')
@@ -27,16 +30,17 @@ userRoutes.route('/registration')
         let user = new User(req.body);
         user.save()
             .then(user => {
-                req.session.user_id = user._id;
-                req.session.token = hat();
-
+                console.log(user);
+                let token = jwt.sign(user.toJSON(), config.auth_secret);
+                console.log(token);
                 res.status(200)
                     .send({
-                        token: req.session.token,
+                        token,
                         email: user.email
                     });
             })
             .catch(err => {
+                console.log(err);
                 res.status(400).send({
                     code: 400,
                     error_message: err.errmsg
@@ -44,24 +48,8 @@ userRoutes.route('/registration')
             });
     });
 
-userRoutes.get('/logout', (req, res, next) => {
-    if (req.session) {
-
-        req.session.destroy((err) => {
-            if (err) {
-                return next(err);
-            } else {
-                return res.redirect('/');
-            }
-        });
-    }
-});
-
-userRoutes.get('/my', (req, res, next) => {
-    Session.findOne({token: req.body.token})
-        .then(session => {
-            console.log(session);
-        })
+userRoutes.get('/dashboard', passport.authenticate('jwt'), (req, res) => {
+    res.status(200).send('It worked! User id is: ' + req.user._id + '.');
 });
 
 module.exports = userRoutes;
