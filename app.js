@@ -13,8 +13,11 @@ app.use(passport.initialize());
 app.use(cors());
 
 require('@environment/database')(mongoose, config);
-require('@environment/passport')(config, passport);
 
-app.use('/auth', require('@route/auth'));
+app.use(require('@route/router')(express));
 
 require('@route/default')(app);
+
+require('@environment/passport')(config, passport);
+
+require('@server')(app);

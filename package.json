@@ -21,6 +21,7 @@
     "bcrypt": "^1.0.3",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
+    "passport-json": "^1.2.0",
     "jsonwebtoken": "^8.2.0",
     "consign": "^0.1.6",
     "module-alias": "^2.0.6"
@@ -33,6 +34,7 @@
     "@environment": "app/environment",
     "@route": "app/route",
     "@model": "app/model",
-    "@server": "server"
+    "@server": "server",
+    "@api":"app/route/api"
   }
 }

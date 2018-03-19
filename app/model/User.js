@@ -1,5 +1,8 @@
 let mongoose = require('mongoose');
 let bcrypt = require('bcrypt');
+let jwt = require('jsonwebtoken');
+
+let config  = require('@environment/config')
 
 let UserSchema = new mongoose.Schema({
     email: {
@@ -13,19 +16,14 @@ let UserSchema = new mongoose.Schema({
         required: true,
         unique: false
     },
-    social_token_type: {
-        type: String,
-        required: false,
-        trim: true
-    },
-    social_token: {
+    google_token: {
         type: String,
         required: false,
         trim: true
     }
 });
 
-UserSchema.pre('save', function (next) {
+UserSchema.pre('save', function(next) {
     let user = this;
     bcrypt.hash(user.password, 10, (err, hash) => {
         if (err) {
@@ -36,18 +34,22 @@ UserSchema.pre('save', function (next) {
     })
 });
 
-UserSchema.statics.authenticate = (email, password) => {
-    return User.findOne({email: email})
-        .then((user) => {
-            if (user != null && bcrypt.compareSync(password, user.password)) {
-                return user;
-            } else {
-                let error = new Error();
-                error.error_code = 401;
-                error.name = "Введены неверный логин или пароль.";
-                throw error;
-            }
-        });
+UserSchema.methods.verifyPassword = function(password) {
+   return bcrypt.compareSync(password, this .password);
+};
+
+UserSchema.methods.generateJwt = function() {
+  return jwt.sign({
+    id: this._id,
+    user: this
+    }, config.auth_secret);
+};
+
+UserSchema.methods.toAuthJson = function() {
+  return {
+    email: this.email,
+    token: this.generateJwt()
+  };
 };
 
 let User = mongoose.model('User', UserSchema);
