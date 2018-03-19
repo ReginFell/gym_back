@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app",
-    "start:dev": "node app"
+    "start:dev": "nodemon app"
   },
   "author": "S.Zabelnykov",
   "license": "ISC",
@@ -21,6 +21,18 @@
     "bcrypt": "^1.0.3",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
-    "jsonwebtoken": "^8.2.0"
+    "jsonwebtoken": "^8.2.0",
+    "consign": "^0.1.6",
+    "module-alias": "^2.0.6"
+  },
+  "devDependencies": {
+    "nodemon": "1.17.2"
+  },
+  "_moduleAliases": {
+    "@root": ".",
+    "@environment": "app/environment",
+    "@route": "app/route",
+    "@model": "app/model",
+    "@server": "server"
   }
 }

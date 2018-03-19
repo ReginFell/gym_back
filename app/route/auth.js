@@ -1,14 +1,14 @@
-let express = require('express');
 let jwt = require('jsonwebtoken');
 let passport = require("passport");
 
-let userRoutes = express.Router();
+let config = require('@environment/config');
 
-let config = require('../config/config');
+let User = require('@model/User');
 
-let User = require('../model/User');
+module.exports = (app) => {
+let router = app.Router();
 
-userRoutes.route('/login')
+router.route('/login')
     .post((req, res) => {
         User.authenticate(req.body.email, req.body.password)
             .then(user => {
@@ -25,7 +25,7 @@ userRoutes.route('/login')
             });
     });
 
-userRoutes.route('/registration')
+router.route('/registration')
     .post((req, res) => {
         let user = new User(req.body);
         user.save()
@@ -48,8 +48,5 @@ userRoutes.route('/registration')
             });
     });
 
-userRoutes.get('/dashboard', passport.authenticate('jwt'), (req, res) => {
-    res.status(200).send('It worked! User id is: ' + req.user._id + '.');
-});
-
-module.exports = userRoutes;
+return router;
+}

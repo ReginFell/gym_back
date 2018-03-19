@@ -1,9 +1,8 @@
 let JwtStrategy = require('passport-jwt').Strategy;
 let ExtractJwt = require('passport-jwt').ExtractJwt;
-let User = require('../model/User');
-let config = require('./config');
+let User = require('@model/User');
 
-module.exports = (passport) => {
+module.exports = (config, passport) => {
     let opts = {
         jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
         session: false,
