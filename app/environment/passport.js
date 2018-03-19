@@ -1,5 +1,7 @@
 let JwtStrategy = require('passport-jwt').Strategy;
 let JsonStrategy = require('passport-json').Strategy;
+let GoogleTokenStrategy = require('passport-google-id-token');
+
 let ExtractJwt = require('passport-jwt').ExtractJwt;
 let User = require('@model/User');
 
@@ -38,6 +40,15 @@ module.exports = (config, passport) => {
           }
 
           return done(null, user);
+        });
+      }
+    ));
+
+    passport.use(new GoogleTokenStrategy({
+        clientID: '296610349585-euht1emq19rqtmkmjtlcibmh80mh6ur7.apps.googleusercontent.com'
+      }, (parsedToken, googleId, done) => {
+        User.findOrCreate({ google_token: googleId }, function (err, user) {
+          return done(err, user);
         });
       }
     ));

@@ -45,5 +45,10 @@ router.route('/registration')
         });
       });
 
+router.post('/auth/google', passport.authenticate('google-id-token'), function (req, res) {
+          res.send(req.user? 200 : 401);
+        }
+      );
+
 return router;
 }
