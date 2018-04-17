@@ -6,7 +6,7 @@ import passport from 'passport';
 
 require('module-alias/register');
 
-import {config} from '@environment/config'
+let config = require('@environment/config');
 
 const app = express();
 
