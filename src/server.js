@@ -1,13 +1,15 @@
-let express = require('express');
-let bodyParser = require('body-parser');
-let cors = require('cors');
-let mongoose = require('mongoose');
-let passport = require("passport");
+import express from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import mongoose from 'mongoose';
+import passport from 'passport';
+
 require('module-alias/register');
 
-let config = require('@environment/config');
+import {config} from '@environment/config'
 
 const app = express();
+
 app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(cors());
@@ -20,4 +22,7 @@ require('@route/default')(app);
 
 require('@environment/passport')(config, passport);
 
-require('@server')(app);
+const port = process.env.PORT || 5000;
+app.listen(port, () => {
+    console.log('Listening on port ' + port);
+});

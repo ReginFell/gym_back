@@ -2,15 +2,19 @@
   "name": "gym_back",
   "version": "1.0.0",
   "description": "Application for making notes about your gym progress",
-  "main": "app.js",
+  "main": "dist/server.js",
   "scripts": {
-    "start": "node app",
-    "start:dev": "nodemon app"
+    "build": "babel app -d dist",
+    "start": "node ./dist/server.js",
+    "watch": "nodemon --watch src"
   },
   "author": "S.Zabelnykov",
   "license": "ISC",
   "engines": {
     "node": "9.7.1"
+  },
+  "watch": {
+    "build": "src"
   },
   "dependencies": {
     "body-parser": "^1.18.2",
@@ -22,20 +26,21 @@
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "passport-json": "^1.2.0",
-    "passport-google-id-token" : "0.4.5",
+    "passport-google-id-token": "0.4.5",
     "jsonwebtoken": "^8.2.0",
     "consign": "^0.1.6",
     "module-alias": "^2.0.6"
   },
   "devDependencies": {
-    "nodemon": "1.17.2"
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "nodemon": "^1.17.3"
   },
   "_moduleAliases": {
     "@root": ".",
-    "@environment": "app/environment",
-    "@route": "app/route",
-    "@model": "app/model",
-    "@server": "server",
-    "@api":"app/route/api"
+    "@environment": "src/environment",
+    "@route": "src/route",
+    "@model": "src/model",
+    "@api": "src/route/api"
   }
 }
