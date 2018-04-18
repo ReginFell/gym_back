@@ -10,6 +10,9 @@
   },
   "author": "S.Zabelnykov",
   "license": "ISC",
+  "engines": {
+    "node": "9.7.1"
+  },
   "watch": {
     "build": "src"
   },
@@ -25,20 +28,13 @@
     "passport-json": "^1.2.0",
     "passport-google-id-token": "0.4.5",
     "jsonwebtoken": "^8.2.0",
-    "consign": "^0.1.6",
-    "module-alias": "^2.0.6"
+    "consign": "^0.1.6"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.1",
+    "babel-plugin-module-resolver": "^3.1.1",
     "nodemon": "^1.17.3"
-  },
-  "_moduleAliases": {
-    "@root": ".",
-    "@environment": "src/environment",
-    "@route": "src/route",
-    "@model": "src/model",
-    "@api": "src/route/api"
   }
 }

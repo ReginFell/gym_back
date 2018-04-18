@@ -1,5 +1,21 @@
 {
   "presets": [
     "env"
+  ],
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "root": [
+          "./"
+        ],
+        "alias": {
+          "@environment": "./src/environment",
+          "@route": "./src/route",
+          "@model": "./src/model",
+          "@api": "./src/route/api"
+        }
+      }
+    ]
   ]
 }

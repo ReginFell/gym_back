@@ -3,10 +3,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import passport from 'passport';
-
-require('module-alias/register');
-
-let config = require('@environment/config');
+import config from '@environment/config'
 
 const app = express();
 
