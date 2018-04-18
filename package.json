@@ -10,9 +10,6 @@
   },
   "author": "S.Zabelnykov",
   "license": "ISC",
-  "engines": {
-    "node": "9.7.1"
-  },
   "watch": {
     "build": "src"
   },
